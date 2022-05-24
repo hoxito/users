@@ -6,7 +6,6 @@ import fs from 'fs'
 import { ValidateUser, ValidateUsers } from "../services/users-service";
 const mime = require('mime-types')
 
-
 @responsesAll({ 200: { description: "success"}, 400: { description: "bad request"}})
 @tagsAll(["User"])
 export default class UserController {
@@ -45,33 +44,6 @@ export default class UserController {
     }
 
 
-    @request("post", "/users")
-    @summary("Create a user")
-    @body(UserData)
-    public static async createUser(ctx: Context): Promise<void> {
-
-        console.log("context: ",ctx)
-
-        // build up entity user to be saved
-        const usr: UserData = new UserData();
-        usr.user = ctx.request.body.user;
-        usr.amount = ctx.request.body.amount;
-
-        // validate user entity
-        const errors: ValidationError[] = await validate(usr); // errors is an array of validation errors
-
-        if (errors.length > 0) {
-            // return BAD REQUEST status code and errors array
-            ctx.status = 400;
-            ctx.body = errors;
-        } else {
-            // parse
-            // const user = parse
-            // return CREATED status code and updated user
-            ctx.status = 201;
-            ctx.body = {users:usr};
-        }
-    }
 
 
 }
